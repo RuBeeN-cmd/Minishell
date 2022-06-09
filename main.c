@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:40:26 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 15:07:25 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:28:06 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,13 @@ int main()
 	tcgetattr(0, &termios_save);
 	termios_save.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, 0, &termios_save);
-	str = readline(">");
+	str = readline("> ");
 	while(str)
 	{
-		if (str && *str)
-		{
-			printf("%s\n", str);
-			add_history(str);
-			free(str);
-			str = NULL;
-		}
-		tcgetattr(0, &termios_save);
+		printf("%s\n", str);
+		add_history(str);
+		free(str);
 		str = readline(">");
 	}
+	printf("exit\n");
 }
