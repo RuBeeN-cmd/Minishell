@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:40:26 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 15:46:30 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:16:34 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@
 /* 	return (&shell); */
 /* } */
 
-int main()
+int main(int argc, char **argv, char **env)
 {
 	char			*str = NULL;
 	t_shell			shell;
 
-	init_tshell(&shell);
+	(void) argc;
+	(void) argv;
+	init_tshell(&shell, env);
 	set_signal_handlers();
 	str = readline(shell.prompt);
-	while(str)
+	while (str)
 	{
 		printf("%s\n", str);
 		add_history(str);

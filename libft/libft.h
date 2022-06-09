@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:57:38 by johrober          #+#    #+#             */
-/*   Updated: 2022/05/11 17:21:01 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:29:39 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int		ft_str_equals_any(const char *s1, int nb, ...);
 void	ft_free_all(int nbr, ...);
 void	**ft_free_tab(void **tab);
 void	**ft_add_row(void **tab);
+size_t	ft_tablen(const void **tab);
 
 /******************* Printf ******************************/
 typedef struct s_arg	t_arg;

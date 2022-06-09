@@ -1,4 +1,5 @@
-SRC		=	main.c	signal_handler.c	tshell.c
+SRC		=	main.c	signal_handler.c	tshell.c \
+			tenv/tenv_init.c	tenv/tenv_destroy.c		tenv/tenv_utils.c
 OBJ 	=	$(SRC:%.c=%.o)
 CC		=	gcc
 CFLAGS	=	-g -Wall -Wextra -Werror -L/usr/local/lib -I/usr/local/include

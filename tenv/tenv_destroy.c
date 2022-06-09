@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tshell.c                                           :+:      :+:    :+:   */
+/*   tenv_destroy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 15:31:29 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:39:36 by rrollin          ###   ########.fr       */
+/*   Created: 2022/06/09 16:21:49 by rrollin           #+#    #+#             */
+/*   Updated: 2022/06/09 16:52:39 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	init_tshell(t_shell *shell, char **env)
+void	destroy_env_var(t_env_var *var)
 {
-	shell->prompt = "> ";
-	tcgetattr(0, &shell->termios_shell);
-	shell->termios_shell.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, 0, &shell->termios_shell);
-	shell->env = init_env(env);
+	free(var->name);
+	free(var->value);
+	free(var);
 }
 
-/* void	destroy_tshell(t_shell *shell) */
+void	destroy_env(t_env_var **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		destroy_env_var(env[i]);
+	free(env);
+}

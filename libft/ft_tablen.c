@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tshell.c                                           :+:      :+:    :+:   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 15:31:29 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:39:36 by rrollin          ###   ########.fr       */
+/*   Created: 2022/05/03 12:55:20 by rrollin           #+#    #+#             */
+/*   Updated: 2022/05/16 13:36:14 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include"libft.h"
 
-void	init_tshell(t_shell *shell, char **env)
+size_t	ft_tablen(const void **tab)
 {
-	shell->prompt = "> ";
-	tcgetattr(0, &shell->termios_shell);
-	shell->termios_shell.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, 0, &shell->termios_shell);
-	shell->env = init_env(env);
-}
+	int	len;
 
-/* void	destroy_tshell(t_shell *shell) */
+	len = 0;
+	while (tab[len])
+		len++;
+	return (len);
+}

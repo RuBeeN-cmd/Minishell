@@ -1,24 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tshell.c                                           :+:      :+:    :+:   */
+/*   tenv_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 15:31:29 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:39:36 by rrollin          ###   ########.fr       */
+/*   Created: 2022/06/09 16:47:58 by rrollin           #+#    #+#             */
+/*   Updated: 2022/06/09 16:52:32 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	init_tshell(t_shell *shell, char **env)
-{
-	shell->prompt = "> ";
-	tcgetattr(0, &shell->termios_shell);
-	shell->termios_shell.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, 0, &shell->termios_shell);
-	shell->env = init_env(env);
-}
-
-/* void	destroy_tshell(t_shell *shell) */
+#include "../minishell.h"
