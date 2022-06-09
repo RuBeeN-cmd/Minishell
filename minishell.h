@@ -6,7 +6,7 @@
 /*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:43:42 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/08 16:38:18 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:44:59 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,27 @@
 # include <readline/history.h>
 # include <libft.h>
 
-/*typedef struct s_shell {
-	int	running;
-	int	pid;
-}				t_shell;*/
+typedef struct s_shell {
+	/* int	running; */
+	/* int	pid; */
+	char			*prompt;
+	struct termios	termios_shell;
+
+}				t_shell;
 
 //////////////////////////////////////////////////
 ////////////		minishell		//////////////
 //////////////////////////////////////////////////
 
-/********	main.c	********/
-int main(void);
+/********	main.c	*******************/
+int		main(void);
+
+/********	signal_handler.c	*******/
+void	set_signal_handlers(void);
+void	receive(int signum);
+
+/********	tshell.c		***********/
+void	init_tshell(t_shell *shell);
+
 
 #endif

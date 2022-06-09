@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:40:26 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 15:28:06 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:46:30 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,20 @@
 /* 	return (&shell); */
 /* } */
 
-void	receive(int signum)
-{
-	if (signum == SIGINT)
-	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
 int main()
 {
 	char			*str = NULL;
-	struct termios	termios_save;
+	t_shell			shell;
 
-	signal(SIGINT, &receive);
-	signal(SIGQUIT, &receive);
-	tcgetattr(0, &termios_save);
-	termios_save.c_lflag &= ~ECHOCTL;
-	tcsetattr(0, 0, &termios_save);
-	str = readline("> ");
+	init_tshell(&shell);
+	set_signal_handlers();
+	str = readline(shell.prompt);
 	while(str)
 	{
 		printf("%s\n", str);
 		add_history(str);
 		free(str);
-		str = readline(">");
+		str = readline(shell.prompt);
 	}
 	printf("exit\n");
 }

@@ -1,4 +1,4 @@
-SRC		= main.c	
+SRC		=	main.c	signal_handler.c	tshell.c
 OBJ 	=	$(SRC:%.c=%.o)
 CC		=	gcc
 CFLAGS	=	-g -Wall -Wextra -Werror -L/usr/local/lib -I/usr/local/include
