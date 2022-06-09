@@ -21,7 +21,7 @@ clean	:
 	make -C libft clean
 
 ctags	:
-	ctags -R **/*
+	ctags -R * **/*
 
 fclean	:	clean
 	rm -rf $(NAME)

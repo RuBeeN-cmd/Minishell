@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:31:29 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:39:36 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:29:34 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,8 @@ void	init_tshell(t_shell *shell, char **env)
 	shell->env = init_env(env);
 }
 
-/* void	destroy_tshell(t_shell *shell) */
+void	destroy_tshell(t_shell *shell)
+{
+	destroy_env(shell->env);
+	shell->env = NULL;
+}

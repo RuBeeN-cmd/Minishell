@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:43:42 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:49:10 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:30:51 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	receive(int signum);
 
 /********	tshell.c		***********/
 void	init_tshell(t_shell *shell, char **env);
-
+void	destroy_tshell(t_shell *shell);
 
 //////////////////////////////////////////////////
 ////////////		tenv			//////////////
@@ -61,7 +61,13 @@ t_env_var	*parse_env_var(char *env_str);
 t_env_var	**init_env(char **env_str);
 
 /********	tenv_destroy.c		***********/
-void	destroy_env_var(t_env_var *var);
-void	destroy_env(t_env_var **env);
+void		destroy_env_var(t_env_var *var);
+void		destroy_env(t_env_var **env);
 
+/********	tenv_utils.c		***********/
+t_env_var	*get_env_var(t_shell *shell, char *name);
+void		add_env_var(t_shell	*shell, char *name, char *value);
+void		set_env_var(t_shell *shell, char *name, char *value);
+void		print_env(t_shell *shell);
+void		remove_env_var(t_shell *shell, char *name);
 #endif

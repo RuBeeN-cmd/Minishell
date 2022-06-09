@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:45:22 by rrollin           #+#    #+#             */
-/*   Updated: 2022/06/09 16:54:40 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:34:15 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ t_env_var	**init_env(char **env_str)
 	i = -1;
 	while (env_str[++i])
 		env[i] = parse_env_var(env_str[i]);
-	env[i + 1] = NULL;
+	env[i] = NULL;
 	return (env);
 }

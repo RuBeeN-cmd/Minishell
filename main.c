@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:40:26 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:16:34 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:37:38 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ int main(int argc, char **argv, char **env)
 
 	(void) argc;
 	(void) argv;
+	(void) str;
 	init_tshell(&shell, env);
 	set_signal_handlers();
+	remove_env_var(&shell, "LESS");
+	add_env_var(&shell, "USRNAME", "rrollin");
+	print_env(&shell);
 	str = readline(shell.prompt);
 	while (str)
 	{
@@ -36,5 +40,6 @@ int main(int argc, char **argv, char **env)
 		free(str);
 		str = readline(shell.prompt);
 	}
+	destroy_tshell(&shell);
 	printf("exit\n");
 }
