@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   ft_lower.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 12:55:20 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/02 16:16:50 by johrober         ###   ########.fr       */
+/*   Created: 2022/06/29 13:59:53 by johrober          #+#    #+#             */
+/*   Updated: 2022/06/29 14:00:25 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-size_t	ft_tablen(const void **tab)
+int	ft_lower(int a, int b)
 {
-	int	len;
-
-	len = 0;
-	while (tab && tab[len])
-		len++;
-	return (len);
+	if (a < b)
+		return (a);
+	else
+		return (b);
 }

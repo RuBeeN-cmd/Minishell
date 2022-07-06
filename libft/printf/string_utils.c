@@ -6,7 +6,7 @@
 /*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 13:14:37 by johrober          #+#    #+#             */
-/*   Updated: 2022/04/26 11:57:33 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/29 13:01:02 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,4 @@ char	*ft_strremove_one(char *str, char c)
 	new[strcount] = 0;
 	free(str);
 	return (new);
-}
-
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*str;
-
-	str = NULL;
-	if (s1 && s2)
-		str = ft_strjoin(s1, s2);
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (str);
 }

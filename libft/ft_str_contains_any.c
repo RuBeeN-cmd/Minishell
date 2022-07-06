@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   ft_str_contains_any.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 12:55:20 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/02 16:16:50 by johrober         ###   ########.fr       */
+/*   Created: 2022/06/21 12:24:43 by johrober          #+#    #+#             */
+/*   Updated: 2022/06/21 12:49:20 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-size_t	ft_tablen(const void **tab)
+int	ft_str_contains_any(const char *str, char *charset)
 {
-	int	len;
+	int	count;
 
-	len = 0;
-	while (tab && tab[len])
-		len++;
-	return (len);
+	count = -1;
+	while (charset[++count])
+	{
+		if (ft_str_contains(str, charset[count]))
+			return (1);
+	}
+	return (0);
 }

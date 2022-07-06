@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   tcmd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 12:55:20 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/02 16:16:50 by johrober         ###   ########.fr       */
+/*   Created: 2022/06/22 12:36:31 by johrober          #+#    #+#             */
+/*   Updated: 2022/06/25 15:42:29 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-
-size_t	ft_tablen(const void **tab)
+t_cmd	*init_cmd(void)
 {
-	int	len;
+	t_cmd	*cmd;
 
-	len = 0;
-	while (tab && tab[len])
-		len++;
-	return (len);
+	cmd = malloc(sizeof(t_cmd));
+	cmd->argc = 0;
+	cmd->argv = NULL;
+	return (cmd);
+}
+
+void	destroy_cmd(t_cmd *cmd)
+{
+	free(cmd->function);
+	ft_free_tab((void **)cmd->arguments);
+	free(cmd);
 }

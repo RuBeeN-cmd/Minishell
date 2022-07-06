@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:57:38 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/09 16:29:39 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/07/02 15:52:33 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,23 @@ char	*ft_itoa_base(long long nbrm, char *base);
 char	*ft_itoa_base_ull(unsigned long long nbrm, char *base);
 int		ft_atoi_base(char *str, char *base);
 int		ft_str_equals_any(const char *s1, int nb, ...);
+int		ft_str_contains(const char *str, char c);
+int		ft_str_contains_any(const char *str, char *charset);
+char	*ft_strchr_any(char *str, char *charset);
+char	*ft_strsubstr(const char *str, const char *search, size_t to_search);
+char	*ft_strnjoin(char *s1, char *s2, int length);
+char	*ft_strjoin_free(char *s1, char *s2);
+
+/**	Maths utils **/
+int		ft_lower(int a, int b);
+int		ft_bigger(int a, int b);
 
 /** Global utils **/
 void	ft_free_all(int nbr, ...);
 void	**ft_free_tab(void **tab);
 void	**ft_add_row(void **tab);
 size_t	ft_tablen(const void **tab);
+void	ft_tab_insert(void ***tab, int position, void *to_insert);
 
 /******************* Printf ******************************/
 typedef struct s_arg	t_arg;
@@ -126,7 +137,6 @@ char	*ft_stradd(char *str, char c);
 int		ft_strcontains_any(char *str, char *set);
 char	*ft_strremove(char *str, char *set);
 char	*ft_strremove_one(char *str, char c);
-char	*ft_strjoin_free(char *s1, char *s2);
 
 /**			    formatting.c		**/
 char	*apply_sign(t_arg *arg);

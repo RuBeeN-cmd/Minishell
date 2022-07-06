@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 12:55:20 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/02 16:16:50 by johrober         ###   ########.fr       */
+/*   Created: 2022/06/29 12:53:55 by johrober          #+#    #+#             */
+/*   Updated: 2022/06/29 13:58:26 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-size_t	ft_tablen(const void **tab)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	int	len;
+	char	*str;
 
-	len = 0;
-	while (tab && tab[len])
-		len++;
-	return (len);
+	str = NULL;
+	if (!s2)
+		return (s1);
+	str = ft_strnjoin(s1, s2, ft_strlen(s2));
+	free(s2);
+	return (str);
 }

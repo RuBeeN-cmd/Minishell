@@ -6,13 +6,11 @@
 /*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 18:03:27 by johrober          #+#    #+#             */
-/*   Updated: 2022/04/05 19:03:11 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/21 12:48:18 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	ft_str_contains(const char *str, const char character);
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
@@ -41,17 +39,4 @@ char	*ft_strtrim(char const *s1, char const *set)
 		str[count] = s1[offset + count];
 	str[count] = 0;
 	return (str);
-}
-
-static int	ft_str_contains(const char *str, const char character)
-{
-	int	count;
-
-	count = 0;
-	while (str[count] && str[count] != character)
-		count++;
-	if (!str[count] && character != 0)
-		return (0);
-	else
-		return (1);
 }

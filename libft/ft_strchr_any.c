@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   ft_strchr_any.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 12:55:20 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/02 16:16:50 by johrober         ###   ########.fr       */
+/*   Created: 2022/06/27 16:27:48 by johrober          #+#    #+#             */
+/*   Updated: 2022/07/01 15:19:32 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-size_t	ft_tablen(const void **tab)
+char	*ft_strchr_any(char *str, char *charset)
 {
-	int	len;
-
-	len = 0;
-	while (tab && tab[len])
-		len++;
-	return (len);
+	while (*str)
+	{
+		if (ft_str_contains(charset, *str))
+			return (str);
+		str++;
+	}
+	return (NULL);
 }

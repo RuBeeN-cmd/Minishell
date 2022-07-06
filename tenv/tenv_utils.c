@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:47:58 by rrollin           #+#    #+#             */
-/*   Updated: 2022/06/09 17:28:21 by johrober         ###   ########.fr       */
+/*   Updated: 2022/06/25 15:39:39 by rrollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_env_var	*get_env_var(t_shell *shell, char *name)
 {
 	t_env_var	*var;
 	int			i;
-	
+
 	i = -1;
-	while(shell->env[++i])
+	while (shell->env[++i])
 	{
 		var = shell->env[i];
 		if (!ft_strcmp(var->name, name))
@@ -66,7 +66,7 @@ void	remove_env_var(t_shell *shell, char *name)
 	t_env_var	*var;
 	int			i;
 	int			j;
-	
+
 	if (!get_env_var(shell, name))
 		return ;
 	env = malloc(sizeof(t_env_var *) * ft_tablen((const void **)shell->env));
