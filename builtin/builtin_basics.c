@@ -81,3 +81,22 @@ void	echo(t_shell *shell, int argc, char **argv)
 		}
 	}
 }
+
+void	exit_builtin(t_shell *shell, int argc, char **argv)
+{
+	int	exit_status;
+
+	(void)argv;
+	if (argc > 2)
+	{
+		printf("exit: too many arguments\n");
+		return ;
+	}
+	if (argc == 1)
+		exit_status = EXIT_SUCCESS;
+	else
+		exit_status = ft_atoi(argv[1]);
+	destroy_tshell(shell);
+	printf("exit\n");
+	exit(exit_status);
+}

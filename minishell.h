@@ -146,7 +146,7 @@ void			destroy_builtin_list(t_shell *shell);
 void			pwd(t_shell *shell, int argc, char **argv);
 void			cd(t_shell *shell, int argc, char **argv);
 void			echo(t_shell *shell, int argc, char **argv);
-//		exit
+void			exit_builtin(t_shell *shell, int argc, char **argv);
 
 /**	builtin_env		**/
 void			unset(t_shell *shell, int argc, char **argv);
