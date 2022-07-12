@@ -52,3 +52,51 @@ void	cd(t_shell *shell, int argc, char **argv)
 	else
 		printf("cd: too many arguments");
 }
+
+void	echo(t_shell *shell, int argc, char **argv)
+{
+	int	n_flag;
+	int	i;
+
+	(void) shell;
+	n_flag = 0;
+	i = 1;
+	if (argc == 1)
+		ft_putchar_fd('\n', 1);
+	else
+	{
+		if (!ft_strcmp(argv[1], "-n"))
+		{
+			n_flag = 1;
+			i++;
+		}
+		while (i < argc)
+		{
+			ft_putstr_fd(argv[i], 1);
+			if (i < argc - 1)
+				ft_putchar_fd(' ', 1);
+			if (!n_flag && i == argc - 1)
+				ft_putchar_fd('\n', 1);
+			i++;
+		}
+	}
+}
+
+void	exit_builtin(t_shell *shell, int argc, char **argv)
+{
+	int	exit_status;
+
+	(void)argv;
+	if (argc > 2)
+	{
+		printf("exit: too many arguments\n");
+		return ;
+	}
+	if (argc == 1)
+		exit_status = EXIT_SUCCESS;
+	else
+		exit_status = ft_atoi(argv[1]);
+	destroy_tshell(shell);
+	printf("exit\n");
+	exit(exit_status);
+}
