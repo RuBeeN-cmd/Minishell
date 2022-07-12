@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:21:49 by rrollin           #+#    #+#             */
-/*   Updated: 2022/06/24 13:59:47 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/07/07 15:33:01 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,32 @@ void	destroy_env(t_env_var **env)
 	while (env[++i])
 		destroy_env_var(env[i]);
 	free(env);
+}
+
+void	remove_env_var(t_shell *shell, char *name)
+{
+	t_env_var	**env;
+	t_env_var	*var;
+	int			i;
+	int			j;
+
+	if (!get_env_var(shell, name))
+		return ;
+	env = malloc(sizeof(t_env_var *) * ft_tablen((const void **)shell->env));
+	i = -1;
+	j = 0;
+	while (shell->env[++i])
+	{
+		var = shell->env[i];
+		if (ft_strcmp(var->name, name))
+		{
+			env[j] = var;
+			j++;
+		}
+		else
+			destroy_env_var(var);
+	}
+	env[j] = NULL;
+	free(shell->env);
+	shell->env = env;
 }

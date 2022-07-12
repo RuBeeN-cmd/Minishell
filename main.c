@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:40:26 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/06 12:01:38 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/12 13:11:15 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **env)
 	(void) argv;
 	shell = init_tshell(env);
 	set_signal_handlers();
-	/* str = ft_strdup("echo lol && (echo)"); */
+	/* str = ft_strdup(""); */
 	str = readline(shell->prompt);
 	while (str)
 	{
@@ -30,10 +30,9 @@ int	main(int argc, char **argv, char **env)
 		handle_wildcards(&list);
 		print_element_list(list);
 		if (is_syntax_valid(list))
-			ft_printf("SYNTAX OK\n");
+			ft_exec_bloc(shell, list);
 		else
 			ft_printf("SYNTAX KO\n");
-		//ft_exec_bloc(list);
 		add_history(str);
 		free(str);
 		/* str = NULL; */

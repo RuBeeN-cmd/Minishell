@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 15:05:15 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/04 16:49:24 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/07/11 13:02:25 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_get_blocks(t_cmd_element *input, t_cmd_element **cmd,
 	(*op)->next = NULL;
 }
 
-int	ft_split_cmd(t_cmd_element *input)
+int	ft_split_cmd(t_shell *shell, t_cmd_element *input)
 {
 	t_cmd_element	*op;
 	t_cmd_element	*cmd;
@@ -51,15 +51,15 @@ int	ft_split_cmd(t_cmd_element *input)
 	if (!ft_strcmp(op->str, "&&"))
 	{
 		destroy_element(op);
-		if (ft_exec_bloc(cmd))
-			return (ft_exec_bloc(nxt_block));
+		if (ft_exec_bloc(shell, cmd))
+			return (ft_exec_bloc(shell, nxt_block));
 		return (0);
 	}
 	else if (!ft_strcmp(op->str, "||"))
 	{
 		destroy_element(op);
-		if (!ft_exec_bloc(cmd))
-			return (ft_exec_bloc(nxt_block));
+		if (!ft_exec_bloc(shell, cmd))
+			return (ft_exec_bloc(shell, nxt_block));
 		return (0);
 	}
 	return (1);

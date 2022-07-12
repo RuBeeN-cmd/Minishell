@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:57:38 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/02 15:52:33 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/07 12:23:25 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int		ft_bigger(int a, int b);
 /** Global utils **/
 void	ft_free_all(int nbr, ...);
 void	**ft_free_tab(void **tab);
+void	ft_destroy_tab(void ***tab, void (*destroy)(void *));
 void	**ft_add_row(void **tab);
 size_t	ft_tablen(const void **tab);
 void	ft_tab_insert(void ***tab, int position, void *to_insert);

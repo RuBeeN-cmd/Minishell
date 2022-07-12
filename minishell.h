@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:43:42 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/06 11:39:23 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/12 11:51:29 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <libft.h>
 # include <dirent.h>
 # include <fcntl.h>
@@ -49,10 +50,20 @@ typedef struct s_shell {
 	t_env_var		**env;
 }				t_shell;
 
+enum e_redir_type {APPEND, REPLACE, IN, UNTIL};
+typedef	enum e_redir_type t_redir_type;
+
+typedef struct s_redir
+{
+	char			*str;
+	t_redir_type	type;
+}				t_redir;
+
 typedef struct s_cmd {
 	int		argc;	
 	char	**argv;
-	//redirection
+	char	**env;
+	t_redir	**redir_tab;
 }				t_cmd;
 
 enum e_elem_type {WORD, REDIRECT, OPERATOR, PIPE, PARENTHESIS};
@@ -91,13 +102,14 @@ t_env_var		**init_env(char **env_str);
 /********	tenv_destroy.c		***********/
 void			destroy_env_var(t_env_var *var);
 void			destroy_env(t_env_var **env);
+void			remove_env_var(t_shell *shell, char *name);
 
 /********	tenv_utils.c		***********/
 t_env_var		*get_env_var(t_shell *shell, char *name);
 void			add_env_var(t_shell	*shell, char *name, char *value);
 void			set_env_var(t_shell *shell, char *name, char *value);
 void			print_env(t_shell *shell);
-void			remove_env_var(t_shell *shell, char *name);
+char			**env_to_string_array(t_shell *shell);
 
 //////////////////////////////////////////////////
 ////////////		cmdparsing		//////////////
@@ -106,11 +118,15 @@ void			remove_env_var(t_shell *shell, char *name);
 /****		tcmd.c		****/
 t_cmd			*init_cmd(void);
 void			destroy_cmd(t_cmd *cmd);
+void			print_cmd(t_cmd *cmd);
+t_redir			*init_redir(char *str, char *redir_type);
+void			destroy_redir(t_redir *redir);
 
 /***		t_cmd_element.c		******/
 t_cmd_element	*init_element(char *str, t_elem_type type);
 void			destroy_element(t_cmd_element *elem);
 void			destroy_element_list(t_cmd_element *elem);
+t_cmd_element	*detach_element(t_cmd_element **list, t_cmd_element *elem);
 void			print_element(t_cmd_element *elem);
 void			print_element_list(t_cmd_element *elem);
 
@@ -131,6 +147,12 @@ int				advance_in_word(char **name, char **expr, int length, char *match);
 /***		cmd_syntax_check.c	******/
 int				is_syntax_valid(t_cmd_element *list);
 int				is_parenthesis_syntax_valid(t_cmd_element *list);
+
+/***		cmd_parse_final.c	*******/
+t_cmd			**parse_final(t_cmd_element *list);
+t_cmd			*parse_single_cmd(t_cmd_element *list);
+t_redir			**parse_redirections(t_cmd_element *list);
+
 
 //////////////////////////////////////////////////
 ////////////		built in		//////////////
@@ -166,10 +188,19 @@ void			replace_file(char *path, char *str);
 ////////////		execution  		//////////////
 //////////////////////////////////////////////////
 
+/**	execute_pipelines.c	**/
+int				execute(t_shell *shell, t_cmd **list);
+int				fork_cmd(t_shell *shell, t_cmd *cmd, int *input, int *output);
+int				execute_cmd(t_shell *shell, t_cmd *cmd);
+char			*search_executable_path(t_shell *shell, char *exec);
+char			*try_path(char *path, char *exec);
+int				count_pipes(t_cmd_element *list);
+void			close_pipe(int *pipe);
+
 /**  exec.c  **/
-int				ft_exec_bloc(t_cmd_element *input);
+int				ft_exec_bloc(t_shell *shell, t_cmd_element *input);
 int				is_single_cmd(t_cmd_element *cmd);
-int				exec(t_cmd_element *cmd);
+int				exec(t_shell *shell, t_cmd_element *cmd);
 
 /**  check_parenthesis.c  **/
 void			remove_parenthesis(t_cmd_element **input);
@@ -177,7 +208,7 @@ int				got_parenthesis(t_cmd_element *input);
 void			remove_pipe_parenthesis(t_cmd_element **input);
 
 /**  split_cmd.c  **/
-int				ft_split_cmd(t_cmd_element *input);
+int				ft_split_cmd(t_shell *shell, t_cmd_element *input);
 void			ft_get_blocks(t_cmd_element *input, t_cmd_element **cmd,
 					t_cmd_element **operator, t_cmd_element **nxt_block);
 
