@@ -6,7 +6,7 @@
 /*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:39:08 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/12 14:27:13 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:19:51 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execute(t_shell *shell, t_cmd **list)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
 		return (0);
-	return (1);
+	return (WEXITSTATUS(status));
 }
 
 pid_t	fork_cmd(t_shell *shell, t_cmd *cmd, int *input, int *output)
@@ -80,13 +80,20 @@ int	execute_cmd(t_shell *shell, t_cmd *cmd)
 {
 	char	*exec_path;
 
-	(void)shell;
 	cmd->env = env_to_string_array(shell);
-	exec_path = search_executable_path(shell, cmd->argv[0]);
-	if (exec_path)
+	if (!ft_str_contains(cmd->argv[0], '/'))
 	{
-		free(cmd->argv[0]);
-		cmd->argv[0] = exec_path;
+		if (!call_builtin_if_exists(shell, cmd))
+		{	
+			exec_path = search_executable_path(shell, cmd->argv[0]);
+			if (!exec_path)
+			{
+				ft_printf_fd(2, "%s: command not found.\n", cmd->argv[0]);
+				exit(127);
+			}
+			free(cmd->argv[0]);
+			cmd->argv[0] = exec_path;
+		}
 	}
 	execve(cmd->argv[0], cmd->argv, cmd->env);
 	perror(cmd->argv[0]);
@@ -101,8 +108,6 @@ char	*search_executable_path(t_shell *shell, char *exec)
 	int			count;
 
 	exec_path = NULL;
-	if (ft_str_contains(exec, '/') && !access(exec, F_OK))
-		return (ft_strdup(exec));
 	if (!ft_str_contains(exec, '/'))
 	{
 		path = get_env_var(shell, "PATH");

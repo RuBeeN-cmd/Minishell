@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:24:46 by rrollin           #+#    #+#             */
-/*   Updated: 2022/06/25 15:40:32 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/07/13 17:19:43 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ void	env(t_shell *shell, int argc, char **argv)
 {
 	(void)argv;
 	if (argc == 1)
+	{
 		print_env(shell);
+		exit(EXIT_SUCCESS);
+	}
 	else
-		printf("env: too many arguments");
+		ft_printf_fd(2, "env: too many arguments\n");
 }
 
 void	export(t_shell *shell, int argc, char **argv)
@@ -43,17 +46,25 @@ void	export(t_shell *shell, int argc, char **argv)
 			else
 				add_env_var(shell, var[0], var[1]);
 			free(var);
+			exit(EXIT_SUCCESS);
 		}
 		else if (eq_ptr == argv[i])
-			printf("export: invalids arguments");
+		{
+			ft_printf_fd(2, "export: invalids arguments\n");
+			break;
+		}
 	}
 }
 
 void	unset(t_shell *shell, int argc, char **argv)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (++i < argc)
 		remove_env_var(shell, argv[i]);
+	if (argc == 1)
+		ft_printf_fd(2, "unset: not enough arguments.\n");
+	else
+		exit(EXIT_SUCCESS);
 }

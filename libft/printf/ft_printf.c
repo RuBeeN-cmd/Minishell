@@ -6,7 +6,7 @@
 /*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 13:49:20 by johrober          #+#    #+#             */
-/*   Updated: 2022/04/26 11:57:15 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:41:52 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_printf(const char *input, ...)
 	va_end(arg_value);
 	if (tab_arg == NULL)
 		return (-1);
-	length = print_output(tab_arg, (char *)input);
+	length = print_output(1, tab_arg, (char *)input);
 	free_tab_arg(tab_arg);
 	return (length);
 }

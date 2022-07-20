@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 12:33:38 by johrober          #+#    #+#             */
-/*   Updated: 2022/06/25 15:38:19 by rrollin          ###   ########.fr       */
+/*   Updated: 2022/07/14 17:42:57 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 void	pwd(t_shell *shell, int argc, char **argv)
 {
+	char	*pwd;
+
+	(void)shell;
 	(void)argv;
+	pwd = NULL;
 	if (argc == 1)
 	{
-		if (!shell->pwd)
-			shell->pwd = getcwd(shell->pwd, 0);
-		ft_printf("%s\n", shell->pwd);
+		pwd = getcwd(pwd, 0);
+		ft_printf("%s\n", pwd);
+		free(pwd);
+		exit(EXIT_SUCCESS);
 	}
 	else
-		printf("pwd: too many arguments\n");
+		ft_printf_fd(2, "pwd: too many arguments\n");
 }
 
 void	cd(t_shell *shell, int argc, char **argv)
@@ -32,25 +37,28 @@ void	cd(t_shell *shell, int argc, char **argv)
 	t_env_var	*old_pwd;
 	char		*path;
 
-	if (argc == 1 || argc == 2)
+	if (argc == 2)
 	{
 		pwd = get_env_var(shell, "PWD");
 		old_pwd = get_env_var(shell, "OLDPWD");
-		if (argc == 1)
-			path = "~";
-		else
-			path = argv[1];
+		path = argv[1];
 		if (old_pwd && pwd)
+		{
+			free(old_pwd->value);
 			old_pwd->value = pwd->value;
+			pwd->value = NULL;
+		}
 		ret = chdir(path);
-		shell->pwd = getcwd(shell->pwd, 0);
 		if (pwd)
-			pwd->value = shell->pwd;
-		if (ret == -1)
-			perror("Error ");
+		{
+			pwd->value = getcwd(pwd->value, 0);
+			printf("New pwd: %s\n", pwd->value);
+		}
+		if (ret != -1)
+			exit(EXIT_SUCCESS);
 	}
 	else
-		printf("cd: too many arguments");
+		ft_printf_fd(2, "cd: wrong number of arguments\n");
 }
 
 void	echo(t_shell *shell, int argc, char **argv)
@@ -80,6 +88,7 @@ void	echo(t_shell *shell, int argc, char **argv)
 			i++;
 		}
 	}
+	exit(EXIT_SUCCESS);
 }
 
 void	exit_builtin(t_shell *shell, int argc, char **argv)
@@ -89,7 +98,7 @@ void	exit_builtin(t_shell *shell, int argc, char **argv)
 	(void)argv;
 	if (argc > 2)
 	{
-		printf("exit: too many arguments\n");
+		ft_printf_fd(2, "exit: too many arguments\n");
 		return ;
 	}
 	if (argc == 1)
@@ -97,6 +106,5 @@ void	exit_builtin(t_shell *shell, int argc, char **argv)
 	else
 		exit_status = ft_atoi(argv[1]);
 	destroy_tshell(shell);
-	printf("exit\n");
 	exit(exit_status);
 }

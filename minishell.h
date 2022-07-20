@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:43:42 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/12 11:51:29 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:02:56 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <dirent.h>
 # include <fcntl.h>
 
-# define BUILTIN_NB	4
+# define BUILTIN_NB	7
 # define PARENTHESIS_NB	20
 
 typedef struct s_env_var {
@@ -39,16 +39,6 @@ typedef struct s_builtin {
 	char	*name;
 	void	(*f)(struct s_shell *shell, int argc, char **argv);
 }				t_builtin;
-
-typedef struct s_shell {
-	/* int	running; */
-	/* int	pid; */
-	char			*prompt;
-	char			*pwd;
-	struct termios	termios_shell;
-	t_builtin		*builtin_list[BUILTIN_NB + 1];
-	t_env_var		**env;
-}				t_shell;
 
 enum e_redir_type {APPEND, REPLACE, IN, UNTIL};
 typedef	enum e_redir_type t_redir_type;
@@ -74,6 +64,16 @@ typedef struct s_cmd_element {
 	t_elem_type				type;
 	struct s_cmd_element	*next;
 }				t_cmd_element;
+
+typedef struct s_shell {
+	char			*prompt;
+	char			*pwd;
+	int				exit_status;
+	struct termios	termios_shell;
+	t_builtin		*builtin_list[BUILTIN_NB + 1];
+	t_cmd			**cmd_tab;
+	t_env_var		**env;
+}				t_shell;
 
 //////////////////////////////////////////////////
 ////////////		minishell		//////////////
@@ -163,6 +163,7 @@ t_builtin		*init_builtin(char *name,
 					void (*f)(t_shell *shell, int argc, char **argv));
 void			init_builtin_list(t_shell *shell);
 void			destroy_builtin_list(t_shell *shell);
+int				call_builtin_if_exists(t_shell *shell, t_cmd *cmd);
 
 /**	builtin_basics	**/
 void			pwd(t_shell *shell, int argc, char **argv);

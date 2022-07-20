@@ -6,29 +6,21 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 12:22:45 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/11 18:01:45 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:08:29 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
-/* int	exec(t_cmd_element *cmd) */
-/* { */
-/* 	int	res; */
-
-/* 	res = !(!ft_strcmp((const char *) cmd->str, "echo")); */
-/* 	print_element(cmd); */
-/* 	destroy_element(cmd); */
-/* 	return (res); */
-/* } */
-
 int	exec(t_shell *shell, t_cmd_element *list)
 {
-	t_cmd	**cmd_tab;
-
-	cmd_tab = parse_final(list);
-	execute(shell, cmd_tab);
-	ft_destroy_tab((void ***)&cmd_tab, (void (*)(void *))destroy_cmd);
+	shell->cmd_tab = parse_final(list);
+	if (ft_tablen((const void **)shell->cmd_tab) == 1
+		&& !ft_strcmp(shell->cmd_tab[0]->argv[0], "exit"))
+		exit_builtin(shell, shell->cmd_tab[0]->argc, shell->cmd_tab[0]->argv);
+	shell->exit_status = execute(shell, shell->cmd_tab);
+	ft_destroy_tab((void ***)&shell->cmd_tab, (void (*)(void *))destroy_cmd);
+	shell->cmd_tab = NULL;
 	return (1);
 }
 
