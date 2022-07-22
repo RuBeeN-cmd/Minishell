@@ -6,7 +6,7 @@
 /*   By: johrober <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:39:08 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/13 17:19:51 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/21 20:20:33 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,25 @@ int	execute(t_shell *shell, t_cmd **list)
 	int		input[2];
 	int		output[2];
 	int		count;
-	int		status;
 	pid_t	pid;
 
 	nb_pipe = ft_tablen((const void **)list) - 1;
+	init_pipe((int *)input);
 	count = -1;
 	while (++count <= nb_pipe)
 	{
-		pipe(output);
-		if (nb_pipe == 0)
-			pid = fork_cmd(shell, list[count], NULL, NULL);
-		else if (count == 0)
-			pid = fork_cmd(shell, list[count], NULL, (int *)output);
-		else if (count == nb_pipe)
-			pid = fork_cmd(shell, list[count], (int *)input, NULL);
-		else
-			pid = fork_cmd(shell, list[count], (int *)input, (int *)output);
-		if (count > 0)
-			close(input[0]);
-		close(output[1]);
-		input[0] = output[0];
-		input[1] = output[1];
+		init_pipe((int *)output);
+		if (nb_pipe > 0 && count < nb_pipe)
+			pipe(output);
+		pid = fork_cmd(shell, list[count], (int *)input, (int *)output);
+		if (input[0] != -1)
+			close_fd((int *)input);
+		if (output[1] != -1)
+			close_fd((int *)output + 1);
+		copy_pipe_from((int *)input, (int *)output);
 	}
-	if (count <= nb_pipe)
-		close(input[0]);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
-		return (0);
-	return (WEXITSTATUS(status));
+	close_fd((int *)input + 1);
+	return (pid);
 }
 
 pid_t	fork_cmd(t_shell *shell, t_cmd *cmd, int *input, int *output)
@@ -57,23 +48,21 @@ pid_t	fork_cmd(t_shell *shell, t_cmd *cmd, int *input, int *output)
 		perror("fork");
 	else if (!pid)
 	{
-		if (input)
+		shell->fork = 1;
+		if (input[0] != -1)
+		{
 			dup2(input[0], STDIN_FILENO);
-		if (input)
-			close_pipe(input);
-		if (output)
+			close(input[0]);
+		}
+		if (output[1] != -1)
+		{
 			dup2(output[1], STDOUT_FILENO);
-		if (output)
-			close_pipe(output);
+			close(output[0]);
+			close(output[1]);
+		}
 		execute_cmd(shell, cmd);
 	}
 	return (pid);
-}
-
-void	close_pipe(int *pipe)
-{
-	close(pipe[0]);
-	close(pipe[1]);
 }
 
 int	execute_cmd(t_shell *shell, t_cmd *cmd)
@@ -138,25 +127,4 @@ char	*try_path(char *path, char *exec)
 	else
 		free(exec_path);
 	return (NULL);
-}
-
-/* int	handle_redirections(t_shell *shell, t_cmd_element *list) */
-/* { */
-	
-/* } */
-
-int	count_pipes(t_cmd_element *list)
-{
-	int				pipes;
-	t_cmd_element	*current;
-
-	pipes = 0;
-	current = list;
-	while (current)
-	{
-		if (current->type == PIPE)
-			pipes++;
-		current = current->next;
-	}
-	return (pipes);
 }

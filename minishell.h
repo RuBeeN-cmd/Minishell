@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:43:42 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/13 17:02:56 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/21 20:22:43 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_shell {
 	char			*prompt;
 	char			*pwd;
 	int				exit_status;
+	int				fork;
 	struct termios	termios_shell;
 	t_builtin		*builtin_list[BUILTIN_NB + 1];
 	t_cmd			**cmd_tab;
@@ -190,13 +191,17 @@ void			replace_file(char *path, char *str);
 //////////////////////////////////////////////////
 
 /**	execute_pipelines.c	**/
-int				execute(t_shell *shell, t_cmd **list);
+pid_t			execute(t_shell *shell, t_cmd **list);
 int				fork_cmd(t_shell *shell, t_cmd *cmd, int *input, int *output);
 int				execute_cmd(t_shell *shell, t_cmd *cmd);
 char			*search_executable_path(t_shell *shell, char *exec);
 char			*try_path(char *path, char *exec);
+
+/**	pipe_utils.c		**/
+void			copy_pipe_from(int *dest, int *src);
+void			init_pipe(int *pipe);
+void			close_fd(int *fd);
 int				count_pipes(t_cmd_element *list);
-void			close_pipe(int *pipe);
 
 /**  exec.c  **/
 int				ft_exec_bloc(t_shell *shell, t_cmd_element *input);

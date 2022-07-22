@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:24:46 by rrollin           #+#    #+#             */
-/*   Updated: 2022/07/13 17:19:43 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/21 13:18:46 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	export(t_shell *shell, int argc, char **argv)
 			else
 				add_env_var(shell, var[0], var[1]);
 			free(var);
-			exit(EXIT_SUCCESS);
+			if (shell->fork)
+				exit(EXIT_SUCCESS);
 		}
 		else if (eq_ptr == argv[i])
 		{
@@ -65,6 +66,6 @@ void	unset(t_shell *shell, int argc, char **argv)
 		remove_env_var(shell, argv[i]);
 	if (argc == 1)
 		ft_printf_fd(2, "unset: not enough arguments.\n");
-	else
+	else if (shell->fork)
 		exit(EXIT_SUCCESS);
 }

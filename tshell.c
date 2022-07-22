@@ -6,7 +6,7 @@
 /*   By: rrollin <rrollin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:31:29 by johrober          #+#    #+#             */
-/*   Updated: 2022/07/13 17:03:10 by johrober         ###   ########.fr       */
+/*   Updated: 2022/07/21 13:17:42 by johrober         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_shell	*init_tshell(char **env)
 	tcsetattr(0, 0, &shell->termios_shell);
 	shell->env = init_env(env);
 	shell->pwd = NULL;
+	shell->fork = 0;
 	shell->pwd = getcwd(shell->pwd, 0);
 	shell->cmd_tab = NULL;
 	shell->exit_status = 0;
